@@ -21,7 +21,7 @@
   margin-top: 3em;
 }
 
-#pageTitle{
+.pageTitle{
   font-size: 3rem;
   font-weight: bold;
 }
@@ -112,53 +112,70 @@ table#watchInfoTable > tbody> tr >td{
 
 
 :root {
-    --jumbotron-padding-y: 3rem;
-  }
+  --jumbotron-padding-y: 3rem;
+}
   
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
   .jumbotron {
-    padding-top: var(--jumbotron-padding-y);
-    padding-bottom: var(--jumbotron-padding-y);
-    margin-bottom: 0;
-    background-color: #fff;
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
   }
-  @media (min-width: 768px) {
-    .jumbotron {
-      padding-top: calc(var(--jumbotron-padding-y) * 2);
-      padding-bottom: calc(var(--jumbotron-padding-y) * 2);
-    }
-  }
-
-  img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
 }
-  
-  .jumbotron p:last-child {
-    margin-bottom: 0;
-  }
-  
-  .jumbotron-heading {
-    font-weight: 300;
-  }
-  
-  .jumbotron .container {
-    max-width: 40rem;
-  }
 
-
-  group>.btn:not(:last-child):not(.dropdown-toggle) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.textWatch{
+  text-align: justify;
 }
-  
+
+img.imgAlbum {
+  width: 100%;
+  height: 25rem;
+  object-fit: cover;
+}
+
+.personalAreaDiv{
+  color: white;
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+
+group>.btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 footer p {
   margin-bottom: .25rem;
+  text-align: end;
+}
+
+footer > div > p > a{
+  color:#6c757d
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+
+
+
