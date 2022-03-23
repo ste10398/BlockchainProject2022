@@ -14,6 +14,12 @@
       padding-bottom: calc(var(--jumbotron-padding-y) * 2);
     }
   }
+
+  img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
   
   .jumbotron p:last-child {
     margin-bottom: 0;
@@ -26,6 +32,7 @@
   .jumbotron .container {
     max-width: 40rem;
   }
+
 
   group>.btn:not(:last-child):not(.dropdown-toggle) {
     border-top-right-radius: 0;
