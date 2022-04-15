@@ -1,3 +1,6 @@
+//var csv = require('jquery-csv');
+var csv = require('jquery-csv')
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -19,6 +22,8 @@ App = {
         petsRow.append(petTemplate.html());
       }
     });
+
+    $.csv.toArray('../../mint_contracts/watches_data.csv');
 
     return await App.initWeb3();
   },
