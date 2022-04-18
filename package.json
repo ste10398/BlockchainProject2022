@@ -14,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.3.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.5.0",
+    "jquery-csv": "^1.0.21"
   }
 }
