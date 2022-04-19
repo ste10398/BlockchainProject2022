@@ -251,17 +251,17 @@ contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDown
 
     }
 
-    function onERC721Received(address _from, uint256 _childTokenId, bytes calldata _data) external returns (bytes4) {
+    function onERC721Received(address _operator, address _from, uint256 _childTokenId, bytes calldata _data) external returns (bytes4) {
         require(_data.length > 0, "_data must contain the uint256 tokenId to transfer the child token to.");
         // convert up to 32 bytes of_data to uint256, owner nft tokenId passed as uint in bytes
         uint256 tokenId;
-        assembly {tokenId := calldataload(132)}
+        assembly {tokenId := calldataload(164)}
         if (_data.length < 32) {
             tokenId = tokenId >> 256 - _data.length * 8;
         }
         receiveChild(_from, tokenId, msg.sender, _childTokenId);
         require(ERC721(msg.sender).ownerOf(_childTokenId) != address(0), "Child token not owned.");
-        return ERC721_RECEIVED_OLD;
+        return ERC721_RECEIVED_NEW;
     }
 
     function receiveChild(address _from, uint256 _tokenId, address _childContract, uint256 _childTokenId) private {
