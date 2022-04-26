@@ -1,5 +1,5 @@
 //rappresenta il contract astraction in truffle
-var Composable = artifacts.require("./ERC998TopDownCustom.sol");
+var Composable = artifacts.require("./ERC998TopDown.sol");
 var Safemath = artifacts.require("./SafeMath.sol");
 var sampleNFT = artifacts.require("./SampleNFT.sol");
 

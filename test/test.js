@@ -1,5 +1,5 @@
 // contracts
-const ComposableTopDown = artifacts.require("./ERC998TopDownCustom.sol");
+const ComposableTopDown = artifacts.require("./ERC998TopDown.sol");
 const SampleNFT = artifacts.require("./SampleNFT.sol");
 
 // tools for overloaded function calls
@@ -23,8 +23,8 @@ contract('ComposableTopDown', function(accounts) {
   * The following creates bytes of length 32 representing 1, 2 and 3
   **************************************/
   const bytes1 = web3Utils.padLeft(web3Utils.toHex(1), 32);
-  const bytes2 = web3Utils.padLeft(web3Utils.toHex(2), 32);
-  const bytes3 = web3Utils.padLeft(web3Utils.toHex(3), 32);
+  const uriComposable = 'https://ipfs.infura.io/ipfs/QmZfD7GV4yZh96nZNeth1ayfPQ1M3yNwWAuxcjEnH3yfJy';
+  const uriNFT = 'https://ipfs.infura.io/ipfs/QmZfD7GV4yZh96nZNeth1ayfPQ1M3yNwWAuxcjEnH3yfJy';
 
   it('should be deployed, Composable', async () => {
 
@@ -39,16 +39,26 @@ contract('ComposableTopDown', function(accounts) {
   });
 
   it('should mint a 721 token, Composable', async () => {
-    const tokenId = await composable.mint.call(alice);
+    const tokenId = await composable.mint.call(alice, uriComposable);
     assert.equal(tokenId, 1, 'Composable 721 token was not created or has wrong tokenId');
-    const tx = await composable.mint(alice);
+    const tx = await composable.mint(alice, uriComposable);
   });
 
   it('should mint a 721 token, SampleNFT', async () => {
-    const uri = 'https://ipfs.infura.io/ipfs/QmZfD7GV4yZh96nZNeth1ayfPQ1M3yNwWAuxcjEnH3yfJy';
-    const tokenId = await sampleNFT.mint721.call(alice, uri);
+    const tokenId = await sampleNFT.mint721.call(alice, uriNFT);
     assert.equal(tokenId, 1, 'SampleNFT 721 token was not created or has wrong tokenId');
-    const tx = await sampleNFT.mint721(alice, uri);
+    const tx = await sampleNFT.mint721(alice, uriNFT);
+  });
+
+  /*   GET URIS FROM CONTRACTS   */
+  it('should get right URI from Composable', async () => {
+    const uri = await composable.tokenURI.call(1);
+    assert.equal(uri, uriComposable, 'did not receive the right uri for composable');
+  });
+
+  it('should get right URI from Composable', async () => {
+    const uri = await sampleNFT.tokenURI.call(1);
+    assert.equal(uri, uriNFT, 'did not receive the right uri for composable');
   });
 
   /*   TRANSFER SINGLE TOKEN   */
