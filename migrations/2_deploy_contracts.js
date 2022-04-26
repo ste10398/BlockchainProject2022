@@ -1,13 +1,13 @@
 //rappresenta il contract astraction in truffle
 var Composable = artifacts.require("./ERC998TopDownCustom.sol");
 var Safemath = artifacts.require("./SafeMath.sol");
-var SampleNFT = artifacts.require("./SampleNFT.sol");
+var sampleNFT = artifacts.require("./SampleNFT.sol");
 
 //direttive to deploy the contract
 module.exports = function(deployer) {
   deployer.deploy(Composable, 'Composable1', 'CMP1');
   deployer.deploy(Safemath);
-  deployer.deploy(SampleNFT);
+  deployer.deploy(sampleNFT);
 };
 
 //poi nella console bisogna scrivere truffle migrate
