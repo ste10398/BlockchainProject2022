@@ -29,7 +29,7 @@ interface ERC998ERC721TopDownEnumerable {
     function childTokenByIndex(uint256 _tokenId, address _childContract, uint256 _index) external view returns (uint256 childTokenId);
 }
 
-contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumerable
+contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumerable
 {
     // return this.rootOwnerOf.selector ^ this.rootOwnerOfChild.selector ^
     //   this.tokenOwnerOf.selector ^ this.ownerOfChild.selector;
@@ -49,17 +49,55 @@ contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDown
     // token owner => (operator address => bool)
     mapping(address => mapping(address => bool)) internal tokenOwnerToOperators;
 
+    // Mapping for token URIs
+    mapping(uint256 => string) private _tokenURIs;
 
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
-    // wrapper on minting new 721
-    function mint(address _to) public returns (uint256) {
+    // wrapper on minting new 721 composable
+    function mint(address _to, string memory _tokenURI) public returns (uint256) {
         tokenCount++;
         uint256 tokenCount_ = tokenCount;
         tokenIdToTokenOwner[tokenCount_] = _to;
         tokenOwnerToTokenCount[_to]++;
+        _setTokenURI(tokenCount_, _tokenURI);
         return tokenCount_;
     }
+
+     /**
+     * @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token.
+     */
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(tokenIdToTokenOwner[tokenId] != address(0), "ERC998: URI query for nonexistent token"); //the token must exists
+
+        string memory _tokenURI = _tokenURIs[tokenId];
+        string memory base = _baseURI();
+
+        // If there is no base URI, return the token URI.
+        if (bytes(base).length == 0) {
+            return _tokenURI;
+        }
+        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
+        if (bytes(_tokenURI).length > 0) {
+            return string(abi.encodePacked(base, _tokenURI));
+        }
+
+        return ""; //return empty string if the token Uri is not set
+    }
+
+    
+    /**
+     * @dev Sets `_tokenURI` as the tokenURI of `tokenId`.
+     *
+     * Requirements:
+     *
+     * - `tokenId` must exist.
+     */
+    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
+        require(tokenIdToTokenOwner[tokenId] != address(0), "ERC998: URI query for nonexistent token");
+        _tokenURIs[tokenId] = _tokenURI;
+    }
+
     //from zepellin ERC721Receiver.sol
     //old version
     bytes4 constant ERC721_RECEIVED_OLD = 0xf0b9e5ba;
@@ -80,12 +118,14 @@ contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDown
         return rootOwnerOfChild(address(0), _tokenId);
     }
 
-    // returns the owner at the top of the tree of composables
-    // Use Cases handled:
-    // Case 1: Token owner is this contract and token.
-    // Case 2: Token owner is other top-down composable
-    // Case 3: Token owner is other contract
-    // Case 4: Token owner is user
+    /**
+     * @dev Returns the owner at the top of the tree of composables
+     *      Use Cases handled:
+     *      Case 1: Token owner is this contract and token.
+     *      Case 2: Token owner is other top-down composable
+     *      Case 3: Token owner is other contract
+     *      Case 4: Token owner is user
+     */
     function rootOwnerOfChild(address _childContract, uint256 _childTokenId) public view returns (bytes32 rootOwner) {
         address rootOwnerAddress;
         if (_childContract != address(0)) {
@@ -122,9 +162,13 @@ contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDown
         }
     }
 
-
-    // returns the owner at the top of the tree of composables
-
+    /**
+     * @dev Returns the owner at the top of the tree of composables.
+     *
+     * Requirements:
+     *
+     * - `tokenOwner` of `tokenId` must exist.
+     */
     function ownerOf(uint256 _tokenId) public override view returns (address tokenOwner) {
         tokenOwner = tokenIdToTokenOwner[_tokenId];
         require(tokenOwner != address(0));
@@ -251,17 +295,17 @@ contract ERC998TopDownCustom is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDown
 
     }
 
-    function onERC721Received(address _from, uint256 _childTokenId, bytes calldata _data) external returns (bytes4) {
+    function onERC721Received(address _operator, address _from, uint256 _childTokenId, bytes calldata _data) external returns (bytes4) {
         require(_data.length > 0, "_data must contain the uint256 tokenId to transfer the child token to.");
         // convert up to 32 bytes of_data to uint256, owner nft tokenId passed as uint in bytes
         uint256 tokenId;
-        assembly {tokenId := calldataload(132)}
+        assembly {tokenId := calldataload(164)}
         if (_data.length < 32) {
             tokenId = tokenId >> 256 - _data.length * 8;
         }
         receiveChild(_from, tokenId, msg.sender, _childTokenId);
         require(ERC721(msg.sender).ownerOf(_childTokenId) != address(0), "Child token not owned.");
-        return ERC721_RECEIVED_OLD;
+        return ERC721_RECEIVED_NEW;
     }
 
     function receiveChild(address _from, uint256 _tokenId, address _childContract, uint256 _childTokenId) private {
