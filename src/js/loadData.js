@@ -43,7 +43,7 @@ LoadData = {
         });
     },
 
-    //show the content on the page
+  //show the content on the page
   render: function() {
     var submitForm = $("#loadForm");
 
