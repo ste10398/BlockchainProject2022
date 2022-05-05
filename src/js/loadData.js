@@ -51,7 +51,11 @@ LoadData = {
   },
 
   //called from the html
-  load: function() {
+  load: function(watches, components) {
+
+    console.log(JSON.stringify(watches))
+    console.log(JSON.stringify(components))
+
     var p_correct = $("#correct");
     var p_not_correct = $("#notCorrect");
 
