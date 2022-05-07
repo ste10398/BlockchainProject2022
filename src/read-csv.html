@@ -24,24 +24,32 @@
                 padding: 0.4em  1em;
             }
             .message{
-                margin-top: 3em;
+                margin-bottom: 2em;
                 font-size: 1.5em;
+            }
+            #loadButton{
+                margin-bottom: 2em;
+                font-size: 2em;
+                padding: 0.4em  1em;
+            }
+            hr{
+                margin-top: 5em;
             }
         </style>        
     </head>
 
     <body>
         <div class="container">
-            <h1>Select Watches File</h1>
+            <h1 class="title">Select Watches File</h1>
             <input id="watch_sel" type="file"></input>
             <textarea id="watch_show" cols="90" rows="20"></textarea>
             <br>
-            <h1>Select Components File</h1>
+            <h1 class="title">Select Components File</h1>
             <input id="component_sel" type="file"></input>
             <textarea id="component_show" cols="90" rows="20"></textarea>
             
-            <h1 class="title"> PRESS THE BUTTON TO LOAD DATA INTO THE BLOCKCHAIN </h1>
             <hr/>
+            <h1 class="title"> Press the button to load data into the Blockchain </h1>
             <br/>
             <button id="loadButton" onclick="LoadData.load(watches, components);">LOAD</button>
             

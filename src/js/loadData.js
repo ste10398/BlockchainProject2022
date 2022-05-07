@@ -48,6 +48,15 @@ LoadData = {
     var submitForm = $("#loadForm");
 
     submitForm.show();
+
+    (async () => {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        LoadData.account = accounts[0];
+      } catch (e) {
+          // Deal with the fact the chain failed
+      }
+  })();
   },
 
   //called from the html
@@ -55,6 +64,7 @@ LoadData = {
 
     console.log(JSON.stringify(watches))
     console.log(JSON.stringify(components))
+    console.log(LoadData.account)
 
     var p_correct = $("#correct");
     var p_not_correct = $("#notCorrect");
@@ -63,6 +73,34 @@ LoadData = {
     p_not_correct.hide();
 
     //now here the data will be load on the blockchain
+
+    //MINTING
+    for(c in components) {
+      LoadData.contracts.SampleNFT.deployed().then(function(instance){
+        instance.mint721(components[c].urlComponent, {from: LoadData.account})
+      });
+    }
+
+    for(w in watches) {
+      LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+        instance.mint(watches[w].urlWatch, {from: LoadData.account})
+      });
+    }
+
+    //get ERC998 adress
+    var add998 = '0x0';
+    LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+      add998 = instance.address;
+    });
+    
+   
+    //PAIRING
+    for(c in components) {
+      LoadData.contracts.SampleNFT.deployed().then(function(instance){
+        instance.safeTransferFrom(LoadData.account, add998, components[c].idComponent, components[c].idParentWatch, { from: LoadData.account, gas: 500000 });
+      });
+    }
+
   }
 
 };

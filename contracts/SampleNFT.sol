@@ -15,7 +15,8 @@ contract SampleNFT is ERC721URIStorage {
     /**
      * @dev Safely mints a new token with the `tokenURI` and transfers it to `to`.
      */
-    function mint721(address to, string memory tokenURI) public returns (uint256){
+    function mint721( string memory tokenURI) public returns (uint256){
+        address to = msg.sender;
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
