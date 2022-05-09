@@ -75,27 +75,27 @@ load: function(watches, components) {
   //now here the data will be load on the blockchain
 
   //MINTING
+  for(w in watches) {
+    (async () => {
+      var wat = w;
+      LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+        return instance.mint(watches[wat].urlWatch, {from: LoadData.account})
+      }).then(function(ris){
+        console.log("Watch "+watches[wat].idWatch+" minted");
+      });;
+    })(); 
+  }
   
-    for(c in components) {
-      (async () => {
-        await LoadData.contracts.SampleNFT.deployed().then(function(instance){
-          return instance.mint721(components[c].urlComponent, {from: LoadData.account})
-        }).then(function(ris){
-          console.log(ris);
-        });
-      })();
-    }
-  
-
-  
-    for(w in watches) {
-      (async () => {
-        LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-          instance.mint(watches[w].urlWatch, {from: LoadData.account})
-        });
-      })(); 
-    }
- 
+  for(c in components) {
+    (async () => {
+      var con = c;
+      await LoadData.contracts.SampleNFT.deployed().then(function(instance){
+        return instance.mint721(components[con].urlComponent, {from: LoadData.account})
+      }).then(function(ris){
+        console.log("Componet "+components[con].idComponent+" minted");
+      });
+    })();
+  }
 
   //get ERC998 adress
   var add998 = '0x0';
@@ -108,9 +108,12 @@ load: function(watches, components) {
   //PAIRING
   for(c in components) {
     (async () => {
+      var con = c;
       LoadData.contracts.SampleNFT.deployed().then(function(instance){
-        instance.transferToFather(LoadData.account, add998, components[c].idComponent, components[c].idParentWatch, { from: LoadData.account, gas: 500000 });
-      });
+        return instance.transferToFather(LoadData.account, add998, components[con].idComponent, "0x00000000000000000000000000000001", { from: LoadData.account, gas: 500000 });
+      }).then(function(ris){
+        console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
+      });;
     })();
   }
 }

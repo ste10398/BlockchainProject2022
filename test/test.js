@@ -29,7 +29,7 @@ contract('ComposableTopDown', function(accounts) {
   it('should be deployed, Composable', async () => {
 
     composable = await  ComposableTopDown.deployed();
-
+    console.log(bytes1);
     assert(composable !== undefined, 'Composable was not deployed');
   });
 
