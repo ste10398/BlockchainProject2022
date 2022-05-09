@@ -25,4 +25,8 @@ contract SampleNFT is ERC721URIStorage {
 
         return newItemId;
     }
+
+    function transferToFather(address from, address to, uint256 tokenId, bytes memory _data) public{
+        safeTransferFrom(from, to, tokenId, _data);
+    }
 }
