@@ -56,6 +56,15 @@ LoadData = {
     console.log(JSON.stringify(watches))
     console.log(JSON.stringify(components))
 
+    for(i=0; i<watches.length; i++) {
+      for(j=0; j<components.length  ; j++) {
+
+        if(watches[i].idWatch == components[j].idParentWatch) {
+          console.log(i+1, j+1)
+        }
+      }
+    }
+
     var p_correct = $("#correct");
     var p_not_correct = $("#notCorrect");
 
