@@ -29,7 +29,7 @@ contract('ComposableTopDown', function(accounts) {
   it('should be deployed, Composable', async () => {
 
     composable = await  ComposableTopDown.deployed();
-
+    console.log(bytes1);
     assert(composable !== undefined, 'Composable was not deployed');
   });
 
@@ -39,15 +39,15 @@ contract('ComposableTopDown', function(accounts) {
   });
 
   it('should mint a 721 token, Composable', async () => {
-    const tokenId = await composable.mint.call(alice, uriComposable);
+    const tokenId = await composable.mint.call(uriComposable, {from: alice});
     assert.equal(tokenId, 1, 'Composable 721 token was not created or has wrong tokenId');
-    const tx = await composable.mint(alice, uriComposable);
+    const tx = await composable.mint(uriComposable, {from: alice});
   });
 
   it('should mint a 721 token, SampleNFT', async () => {
-    const tokenId = await sampleNFT.mint721.call(alice, uriNFT);
+    const tokenId = await sampleNFT.mint721.call(uriNFT, {from: alice});
     assert.equal(tokenId, 1, 'SampleNFT 721 token was not created or has wrong tokenId');
-    const tx = await sampleNFT.mint721(alice, uriNFT);
+    const tx = await sampleNFT.mint721(uriNFT, {from: alice});
   });
 
   /*   GET URIS FROM CONTRACTS   */
@@ -94,9 +94,9 @@ contract('ComposableTopDown', function(accounts) {
 
   it('should mint a 721 token and transfer to Composable, SampleNFT', async () => {
     const uri = 'https://ipfs.infura.io/ipfs/QmZfD7GV4yZh96nZNeth1ayfPQ1M3yNwWAuxcjEnH3yfJy';
-    const tokenId = await sampleNFT.mint721.call(bob, uri);
+    const tokenId = await sampleNFT.mint721.call(uri, {from: bob});
     assert.equal(tokenId, 2, 'SampleNFT 721 token was not created or has wrong tokenId');
-    const tx = await sampleNFT.mint721(bob, uri);
+    const tx = await sampleNFT.mint721(uri, {from: bob});
 
     //transfer
     const tt = await SampleNFT.deployed().then(function(instance) {

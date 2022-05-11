@@ -55,7 +55,8 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
     // wrapper on minting new 721 composable
-    function mint(address _to, string memory _tokenURI) public returns (uint256) {
+    function mint(string memory _tokenURI) public returns (uint256) {
+        address _to = msg.sender;
         tokenCount++;
         uint256 tokenCount_ = tokenCount;
         tokenIdToTokenOwner[tokenCount_] = _to;
