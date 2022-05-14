@@ -26,6 +26,7 @@ interface ERC998ERC721TopDownEnumerable {
     function totalChildContracts(uint256 _tokenId) external view returns (uint256);
     function childContractByIndex(uint256 _tokenId, uint256 _index) external view returns (address childContract);
     function totalChildTokens(uint256 _tokenId, address _childContract) external view returns (uint256);
+    function getChildTokensIndexes(uint256 _tokenId, address _childContract) external view returns (uint256[] memory);
     function childTokenByIndex(uint256 _tokenId, address _childContract, uint256 _index) external view returns (uint256 childTokenId);
 }
 
@@ -351,6 +352,10 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
 
     function totalChildTokens(uint256 _tokenId, address _childContract) external view returns (uint256) {
         return childTokens[_tokenId][_childContract].length;
+    }
+
+    function getChildTokensIndexes(uint256 _tokenId, address _childContract) external view returns (uint256[] memory) {
+        return childTokens[_tokenId][_childContract];
     }
 
     function childTokenByIndex(uint256 _tokenId, address _childContract, uint256 _index) external view returns (uint256 childTokenId) {

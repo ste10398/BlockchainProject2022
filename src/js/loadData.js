@@ -75,7 +75,7 @@ load: function(watches, components) {
   //now here the data will be load on the blockchain
 
   //MINTING
-  for(w in watches) {
+  /*for(w in watches) {
     (async () => {
       var wat = w;
       LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
@@ -116,7 +116,13 @@ load: function(watches, components) {
         console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
       });;
     })();
-  }
+  }*/
+
+  LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+    return instance.totalChildTokens(1, '0xD3E7069C8db8b5E4B16E5293322eC4F15B0d6fb3');
+  }).then(function(ris){
+    console.log(parseInt(ris));
+  });
 }
 
 };
