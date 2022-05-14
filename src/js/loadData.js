@@ -75,54 +75,55 @@ load: function(watches, components) {
   //now here the data will be load on the blockchain
 
   //MINTING
-  /*for(w in watches) {
+  try {
+    for(w in watches) {
+      (async () => {
+        var wat = w;
+        LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+          return instance.mint(watches[wat].urlWatch, {from: LoadData.account})
+        }).then(function(ris){
+          console.log("Watch "+watches[wat].idWatch+" minted");
+        });;
+      })(); 
+    }
+    
+    for(c in components) {
+      (async () => {
+        var con = c;
+        await LoadData.contracts.SampleNFT.deployed().then(function(instance){
+          return instance.mint721(components[con].urlComponent, {from: LoadData.account})
+        }).then(function(ris){
+          console.log("Componet "+components[con].idComponent+" minted");
+        });
+      })();
+    }
+
+    //get ERC998 adress
+    var add998 = '0x0';
     (async () => {
-      var wat = w;
-      LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-        return instance.mint(watches[wat].urlWatch, {from: LoadData.account})
-      }).then(function(ris){
-        console.log("Watch "+watches[wat].idWatch+" minted");
-      });;
-    })(); 
-  }
-  
-  for(c in components) {
-    (async () => {
-      var con = c;
-      await LoadData.contracts.SampleNFT.deployed().then(function(instance){
-        return instance.mint721(components[con].urlComponent, {from: LoadData.account})
-      }).then(function(ris){
-        console.log("Componet "+components[con].idComponent+" minted");
+      await LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+        add998 = instance.address;
       });
-    })();
+    })(); 
+
+    //PAIRING
+    for(c in components) {
+      console.log(components[c].idParentWatch);
+      (async () => {
+        var con = c;
+        LoadData.contracts.SampleNFT.deployed().then(function(instance){
+          return instance.transferToFather(LoadData.account, add998, components[con].idComponent, components[con].idParentWatch, { from: LoadData.account, gas: 500000 });
+        }).then(function(ris){
+          console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
+        });;
+      })();
+    }
+  } catch (error) {
+    console.error(error);
+    p_not_correct.show()
   }
 
-  //get ERC998 adress
-  var add998 = '0x0';
-  (async () => {
-    await LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-      add998 = instance.address;
-    });
-  })(); 
-
-  //PAIRING
-  for(c in components) {
-    console.log(components[c].idParentWatch);
-    (async () => {
-      var con = c;
-      LoadData.contracts.SampleNFT.deployed().then(function(instance){
-        return instance.transferToFather(LoadData.account, add998, components[con].idComponent, components[con].idParentWatch, { from: LoadData.account, gas: 500000 });
-      }).then(function(ris){
-        console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
-      });;
-    })();
-  }*/
-
-  LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-    return instance.totalChildTokens(1, '0xD3E7069C8db8b5E4B16E5293322eC4F15B0d6fb3');
-  }).then(function(ris){
-    console.log(parseInt(ris));
-  });
+  p_correct.show();
 }
 
 };
