@@ -104,26 +104,42 @@ load: function(watches, components) {
       await LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
         add998 = instance.address;
       });
-    })(); 
+    })();
 
     //PAIRING
     for(c in components) {
-      console.log(components[c].idParentWatch);
       (async () => {
         var con = c;
         LoadData.contracts.SampleNFT.deployed().then(function(instance){
-          return instance.transferToFather(LoadData.account, add998, components[con].idComponent, components[con].idParentWatch, { from: LoadData.account, gas: 500000 });
+          return instance.transferToFather(LoadData.account, add998, components[con].idComponent, leftPad(decimalToHexString(components[con].idParentWatch), 32), { from: LoadData.account, gas: 500000 });
         }).then(function(ris){
           console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
+
+          //show message of success
+          if(con == components.length-1){
+            p_correct.show();
+          }
         });;
       })();
     }
   } catch (error) {
     console.error(error);
+    //show message of error
     p_not_correct.show()
   }
 
-  p_correct.show();
+  
+
+  /*LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+    return instance.getChildTokensIndexes(1, '0x86e3318cE32fC54bc1f2241eA3eDB1A05959CFDA');
+  }).then(function(ris){
+    LoadData.contracts.SampleNFT.deployed().then(function(ins){
+      return ins.tokenURI(parseInt(ris[0]));
+    }).then(function(uri){
+      console.log(uri);
+    });;
+  });;*/
+
 }
 
 };

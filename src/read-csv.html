@@ -65,6 +65,7 @@
         <script src="js/web3.min.js"></script>
         <script src="js/truffle-contract.js"></script>
         <script src="js/loadData.js"></script>
+        <script src="js/conversion.js"></script>
 
         <script>
 
@@ -130,8 +131,7 @@
                     for (i=0; i<lines.length-1; i++) {
                         let infos = lines[i].split(",");
                         let tmp_component = {idComponent:infos[0], urlComponent:infos[1], idParentWatch:infos[2]}
-                        components.push(tmp_component)
-                        console.log(infos[2])
+                        components.push(tmp_component);
                     }
                     for(c in components) {
                         textarea_c.value += components[c].idComponent;

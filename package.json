@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/ste10398/BlockchainProject2022#readme",
   "devDependencies": {
+    "@types/node": "^17.0.33",
     "lite-server": "^2.6.1"
   }
 }

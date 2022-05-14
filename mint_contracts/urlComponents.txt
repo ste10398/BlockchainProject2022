@@ -1,6 +1,6 @@
-1,https://ipfs.infura.io/ipfs/QmWzUvSgZuBbRd5pk92YpzHxXsxSmqdcq89m26V2tvxeyk,0x00000000000000000000000000000001
-2,https://ipfs.infura.io/ipfs/QmXtowdH6FF5AxnKVTNnE5cYiYvcERDAZuUz2rJMctDSy5,0x00000000000000000000000000000001
-3,https://ipfs.infura.io/ipfs/QmZVqr4orp5raYzn2N678osEehenZDtxYk5vge1CnsVhgw,0x00000000000000000000000000000001
-4,https://ipfs.infura.io/ipfs/QmbCBYtC4hiDRjEDyaF9CaRkaAmMNSdjjEySZsXiyUh3Vd,0x00000000000000000000000000000002
-5,https://ipfs.infura.io/ipfs/Qmb71XPiEG5Vsy1zXuKGV5xSWSC5rRzY1kUtPYvCZAE3yY,0x00000000000000000000000000000002
-6,https://ipfs.infura.io/ipfs/QmeMmgT29Au4XydQptt2bUsyC2SUtW9q6tb9C8XvUJkmdg,0x00000000000000000000000000000002
+1,https://ipfs.infura.io/ipfs/QmWzUvSgZuBbRd5pk92YpzHxXsxSmqdcq89m26V2tvxeyk,1
+2,https://ipfs.infura.io/ipfs/QmXtowdH6FF5AxnKVTNnE5cYiYvcERDAZuUz2rJMctDSy5,1
+3,https://ipfs.infura.io/ipfs/QmZVqr4orp5raYzn2N678osEehenZDtxYk5vge1CnsVhgw,1
+4,https://ipfs.infura.io/ipfs/QmbCBYtC4hiDRjEDyaF9CaRkaAmMNSdjjEySZsXiyUh3Vd,2
+5,https://ipfs.infura.io/ipfs/Qmb71XPiEG5Vsy1zXuKGV5xSWSC5rRzY1kUtPYvCZAE3yY,2
+6,https://ipfs.infura.io/ipfs/QmeMmgT29Au4XydQptt2bUsyC2SUtW9q6tb9C8XvUJkmdg,2
