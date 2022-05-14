@@ -67,6 +67,7 @@
         <script src="js/loadData.js"></script>
 
         <script>
+
             let input_w = document.querySelector('#watch_sel')
             let textarea_w = document.querySelector('#watch_show')
             let input_c = document.querySelector('#component_sel')
@@ -130,6 +131,7 @@
                         let infos = lines[i].split(",");
                         let tmp_component = {idComponent:infos[0], urlComponent:infos[1], idParentWatch:infos[2]}
                         components.push(tmp_component)
+                        console.log(infos[2])
                     }
                     for(c in components) {
                         textarea_c.value += components[c].idComponent;

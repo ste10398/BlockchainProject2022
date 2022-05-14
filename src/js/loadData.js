@@ -104,14 +104,14 @@ load: function(watches, components) {
       add998 = instance.address;
     });
   })(); 
- 
-  const Web3Utils = require('web3-utils');
+
   //PAIRING
   for(c in components) {
+    console.log(components[c].idParentWatch);
     (async () => {
       var con = c;
       LoadData.contracts.SampleNFT.deployed().then(function(instance){
-        return instance.transferToFather(LoadData.account, add998, components[con].idComponent, web3Utils.padLeft(web3Utils.toHex(components[con].idParentWatch), 32), { from: LoadData.account, gas: 500000 });
+        return instance.transferToFather(LoadData.account, add998, components[con].idComponent, components[con].idParentWatch, { from: LoadData.account, gas: 500000 });
       }).then(function(ris){
         console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
       });;
