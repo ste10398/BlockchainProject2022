@@ -110,7 +110,7 @@ load: function(watches, components) {
     for(c in components) {
       (async () => {
         var con = c;
-        LoadData.contracts.SampleNFT.deployed().then(function(instance){
+        await LoadData.contracts.SampleNFT.deployed().then(function(instance){
           return instance.transferToFather(LoadData.account, add998, components[con].idComponent, leftPad(decimalToHexString(components[con].idParentWatch), 32), { from: LoadData.account, gas: 500000 });
         }).then(function(ris){
           console.log("Componet "+components[con].idComponent+" transferred to Watch "+components[con].idParentWatch);
@@ -140,6 +140,15 @@ load: function(watches, components) {
     });;
   });;*/
 
+  //id ultimo padre
+  /*(async () => {
+    await LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
+      return instance.tokenCount();
+    }).then(function(r){
+      console.log("NUmero:"+r);
+    });
+  })();*/
+   
 }
 
 };

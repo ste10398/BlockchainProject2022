@@ -36,7 +36,7 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
     //   this.tokenOwnerOf.selector ^ this.ownerOfChild.selector;
     bytes32 constant ERC998_MAGIC_VALUE = "0xcd740db5";
 
-    uint256 tokenCount = 0;
+    uint256 public tokenCount = 0;
 
     // tokenId => token owner
     mapping(uint256 => address) internal tokenIdToTokenOwner;
@@ -51,18 +51,25 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
     mapping(address => mapping(address => bool)) internal tokenOwnerToOperators;
 
     // Mapping for token URIs
-    mapping(uint256 => string) private _tokenURIs;
+    mapping(uint256 => string) internal _tokenURIs;
+
+    //mapping of sold tokens Ids
+    mapping (uint256 => bool) public soldTokensId;
+
+    //token id => price
+    mapping(uint256 => uint256) internal tokenPrices; 
 
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
     // wrapper on minting new 721 composable
-    function mint(string memory _tokenURI) public returns (uint256) {
+    function mint(string memory _tokenURI, uint256 price) public returns (uint256) {
         address _to = msg.sender;
         tokenCount++;
         uint256 tokenCount_ = tokenCount;
         tokenIdToTokenOwner[tokenCount_] = _to;
         tokenOwnerToTokenCount[_to]++;
         _setTokenURI(tokenCount_, _tokenURI);
+        tokenPrices[tokenCount] = price;
         return tokenCount_;
     }
 
@@ -266,6 +273,20 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
             bytes4 retval = IERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data);
             require(retval == ERC721_RECEIVED_OLD);
         }
+    }
+
+    //function to buy the token
+    function buyToken(address _to, uint256 _tokenId) payable public{
+        //require that the token is not already sold
+        require(soldTokensId[_tokenId] == false, "Token is already sold");
+
+        //require amount of ether
+        require(msg.value == tokenPrices[_tokenId]*10**18, "Not enough ether send");
+
+        safeTransferFrom(tokenIdToTokenOwner[_tokenId], _to, _tokenId);
+
+        //set token as sold
+        soldTokensId[_tokenId] = true;
     }
 
     ////////////////////////////////////////////////////////
