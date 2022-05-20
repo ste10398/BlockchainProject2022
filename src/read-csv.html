@@ -76,7 +76,8 @@
             
             const watch = {
                 idWatch: "0",
-                urlWatch: "000"
+                urlWatch: "000",
+                priceWatch: "0.0"
             };
             const component = {
                 idComponent: "0",
@@ -101,13 +102,15 @@
                     const lines = file.split(/\r\n|\n/);
                     for (i=0; i<lines.length-1;i++) {
                         let infos = lines[i].split(",");
-                        let tmp_watch = {idWatch:infos[0], urlWatch:infos[1]}
+                        let tmp_watch = {idWatch:infos[0], urlWatch:infos[1], priceWatch:infos[2]}
                         watches.push(tmp_watch)
                     }
                     for(w in watches) {
                     textarea_w.value += watches[w].idWatch;
                     textarea_w.value += '\t';
                     textarea_w.value += watches[w].urlWatch;
+                    textarea_w.value += '\n';
+                    textarea_w.value += watches[w].priceWatch;
                     textarea_w.value += '\n';
                 }
                 };

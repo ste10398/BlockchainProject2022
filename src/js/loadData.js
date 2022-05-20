@@ -80,7 +80,7 @@ load: function(watches, components) {
       (async () => {
         var wat = w;
         LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-          return instance.mint(watches[wat].urlWatch, {from: LoadData.account})
+          return instance.mint(watches[wat].urlWatch, watches[wat].priceWatch, {from: LoadData.account})
         }).then(function(ris){
           console.log("Watch "+watches[wat].idWatch+" minted");
         });;
