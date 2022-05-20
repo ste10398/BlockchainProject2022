@@ -267,7 +267,7 @@ contract ERC998TopDown is ERC721, ERC998ERC721TopDown, ERC998ERC721TopDownEnumer
         }
     }
 
-    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes calldata _data) public override {
+    function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes memory _data) public override {
         _transferFrom(_from, _to, _tokenId);
         if (isContract(_to)) {
             bytes4 retval = IERC721Receiver(_to).onERC721Received(msg.sender, _from, _tokenId, _data);

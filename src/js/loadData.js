@@ -45,14 +45,15 @@ LoadData = {
 
 //show the content on the page
 render: function() {
-  var submitForm = $("#loadForm");
-
-  submitForm.show();
-
+  var loadButton = $("#loadButton");
+  
+  loadButton.show();
+  
   (async () => {
     try {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       LoadData.account = accounts[0];
+      
     } catch (e) {
         // Deal with the fact the chain failed
     }
@@ -80,7 +81,7 @@ load: function(watches, components) {
       (async () => {
         var wat = w;
         LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-          return instance.mint(watches[wat].urlWatch, {from: LoadData.account})
+          return instance.mint(watches[wat].urlWatch, 3, {from: LoadData.account})
         }).then(function(ris){
           console.log("Watch "+watches[wat].idWatch+" minted");
         });;
