@@ -3,7 +3,7 @@ const fs = require("fs")
 //ipfs connection
 const IPFS = require('ipfs-mini')
 
-function makeJsonUrl(ipfs, json, f, id, id_f) {
+function makeJsonUrl(ipfs, json, f, id, price) {
   return new Promise(function (resolve, reject){
     ipfs.addJSON(json,  (err, hash) => {
       if(err){
@@ -11,12 +11,9 @@ function makeJsonUrl(ipfs, json, f, id, id_f) {
       }
       url = t+hash
       //write url in file
-      if(typeof id_f == "undefined") {
-        f.write(id + "," + url + "\n")
-      } 
-      else {
-        f.write(id+","+url+","+id_f+"\n")
-      }
+      
+      f.write(id+","+url+","+price+"\n")
+      
       
       resolve("CREATED")
     })
@@ -72,9 +69,13 @@ async function main() {
     // For each header, if the value contains multiple comma separated data, then we store it in the form of array otherwise
     // directly the value is stored
     var id = 0
+    var price = 0
     for (let j in headers_w) {
       if(headers_w[j] == 'ID'){ 
         id = properties[j]
+      }
+      if(headers_w[j] == 'Price'){ 
+        price = properties[j]
       }
       obj[headers_w[j]] = properties[j]
     }
@@ -82,7 +83,7 @@ async function main() {
     // Convert the resultant array to json and generate the JSON output file.
     let json = JSON.stringify(obj)
     
-    await  makeJsonUrl(ipfs, json, file, id)
+    await  makeJsonUrl(ipfs, json, file, id, price)
   }
 
   file.end()

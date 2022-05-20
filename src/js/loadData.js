@@ -48,7 +48,7 @@ render: function() {
   var loadButton = $("#loadButton");
   
   loadButton.show();
-  
+
   (async () => {
     try {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -81,7 +81,7 @@ load: function(watches, components) {
       (async () => {
         var wat = w;
         LoadData.contracts.ERC998TopDown.deployed().then(function(instance){
-          return instance.mint(watches[wat].urlWatch, 3, {from: LoadData.account})
+          return instance.mint(watches[wat].urlWatch, watches[wat].priceWatch, {from: LoadData.account})
         }).then(function(ris){
           console.log("Watch "+watches[wat].idWatch+" minted");
         });;

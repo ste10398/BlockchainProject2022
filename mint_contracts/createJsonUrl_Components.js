@@ -11,12 +11,9 @@ function makeJsonUrl(ipfs, json, f, id, id_f) {
       }
       url = t+hash
       //write url in file
-      if(typeof id_f == "undefined") {
-        f.write(id + "," + url + "\n")
-      } 
-      else {
-        f.write(id+","+url+","+id_f+"\n")
-      }
+    
+      f.write(id+","+url+","+id_f+"\n")
+      
       
       resolve("CREATED")
     })
